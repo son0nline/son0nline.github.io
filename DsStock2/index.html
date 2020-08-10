@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DsStock Service Active Android</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="app.obf.js"></script>
+    <link rel="stylesheet" type="text/css" href="login.css">
+</head>
+
+<body ng-app="adam">
+
+    <h2>Get Token Form</h2>
+
+    <form name="form" novalidate ng-controller="validate as ctrl">
+        <div class="container">
+            <label>
+                <b>Android ID</b>
+            </label>
+            <input type="text" placeholder="Enter Android ID" ng-model="ctrl.sUser" required>
+            <button ng-click="ctrl.gettoken()">Get Active Code</button>
+        </div>
+        <div class='container'>
+            <label>
+                <b>Active Code</b>
+            </label>
+            <input type="text" ng-model="ctrl.sToken">
+        </div>
+        <div class="container">
+            <img id='imgqr' src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=120x120" />        
+        </div>
+    </form>
+</body>
+
+</html>
