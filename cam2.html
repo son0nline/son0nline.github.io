@@ -1,0 +1,32 @@
+<html>
+  <script>
+  
+function startVideo() {
+
+const video = document.getElementById("video");
+console.log(video);
+  navigator.mediaDevices.getUserMedia({
+      video: true,
+	   audio: true 
+  }).then(
+    stream => (this.video.srcObject = stream),
+    err => console.log(err)
+  );
+}
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function(){
+    setTimeout(() => {
+			startVideo();
+	}, 1000)
+});
+
+  </script>
+  <body>
+
+    <video id="video" width="720" height="540" autoplay></video>
+  </body>
+</html>
