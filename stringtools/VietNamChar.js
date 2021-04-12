@@ -1,4 +1,4 @@
-function removeVietnameseTones(str, bRPunctuations) {
+function removeVietnameseChar(str, bRPunctuations) {
     // Bỏ các khoảng trắng liền nhau
     str = str.replace(/ + /g, " ");
     str = str.trim();
