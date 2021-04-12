@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>String Tools</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="app.min.js"></script>
+    <script src="VietNamChar.js"></script>
+    <link rel="stylesheet" type="text/css" href="login.css">
+</head>
+
+<body ng-app="son0nline">
+
+    <h2>Get Token Form</h2>
+
+    <form name="form" novalidate ng-controller="validate as ctrl">
+        <div class="container">
+            <label>
+                <b>Input</b>
+            </label>
+            <input type="text" placeholder="Input" ng-model="ctrl.sInput" required>
+            <button ng-click="ctrl.gettoken()">Bỏ dấu tiếng Việt</button>
+        </div>
+        <div class='container'>
+            <label>
+                <b>Result</b>
+            </label>
+            <input type="text" ng-model="ctrl.sResult">
+        </div>
+    </form>
+</body>
+
+</html>
