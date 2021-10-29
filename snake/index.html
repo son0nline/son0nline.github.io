@@ -1,0 +1,128 @@
+<canvas id="gc" width="400" height="400"></canvas>
+<div>
+    <p> <div id="gamePoint"></div> điểm</p>
+</div>
+<script>
+    window.onload = function () {
+        canv = document.getElementById("gc");
+        ctx = canv.getContext("2d");
+        document.addEventListener("keydown", keyPush);
+        setInterval(game, 1000 / 10);
+    }
+
+    // gc grid size
+    // tc tail count
+    // khung chơi sẽ có diện tích 20X20
+    // độ dài của đuôi sẽ là 20
+    gs = tc = 20;
+
+    // tọa độ đầu rắn
+    px = py = 1;
+    // tọa độ táo 
+    ax = ay = 15;
+    
+    // tọa hướng di chuyển
+    xv = yv = 0;
+
+    sneak = [];
+
+    dtail = tail = 5; //độ dài của đuôi ban đầu
+    function game() {
+        px += xv;
+        py += yv;
+        if (px < 0) {
+            px = tc - 1;
+        }
+        if (px > tc - 1) {
+            px = 0;
+        }
+
+        if (py < 0) {
+            py = tc - 1;
+        }
+        if (py > tc - 1) {
+            py = 0;
+        }
+
+        // vẽ nền
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canv.width, canv.height);
+
+        // vẽ con rắn 
+        ctx.fillStyle = "lime";
+        for (var i = 0; i < sneak.length; i++) {
+            ctx.fillRect(sneak[i].x * gs, sneak[i].y * gs, gs - 2, gs - 2); // trừ 2 vì boder 
+
+            if (sneak[i].x == px && sneak[i].y == py) {
+                tail = 5;
+            }
+        }
+
+        sneak.push({ x: px, y: py });
+
+        // dài quá thì xóa bớt đi
+        while (sneak.length > tail) {
+            sneak.shift();
+        }
+
+        if (ax == px && ay == py) {
+            tail++;
+            
+            // random tọa độ táo
+            ax = Math.floor(Math.random() * tc);
+            ay = Math.floor(Math.random() * tc);
+        }
+        // vẽ táo 
+        ctx.fillStyle = "red";
+        //ax * gs tọa độ bắt đầu của hình vuông 
+        ctx.fillRect(ax * gs, ay * gs, gs - 2, gs - 2); // trừ 2 vì boder 
+
+        // ctx.beginPath();
+        // ctx.arc((ax * gs), (ay * gs), 50, 0, 2 * Math.PI , false);
+        // context.fillStyle = 'red';
+        // context.fill();
+        
+        // context.lineWidth = 1;
+        // context.strokeStyle = '#003300';
+        // context.stroke();
+
+        gamePoint = document.getElementById("gamePoint");
+        gamePoint.innerText = sneak.length-dtail;
+    }
+    direction = 0;
+    function keyPush(evt) {
+        // một số vấn đề còn lại
+        // đang đi và nhấn về hướng ngược lại thì chết (ví dụ đang up mà nhấn down => chết)
+
+        switch (evt.keyCode) {
+            case 32: xv = 0; yv = 0; // space
+                break;
+            case 37:  // left
+                if(direction == 39){
+                    return;
+                }
+                xv = -1; yv = 0;
+
+                break;
+            case 38:  // up
+                if(direction == 40){
+                    return;
+                }
+                xv = 0; yv = -1;
+                break;
+            case 39:  // right
+                if(direction == 37){
+                    return;
+                }
+                xv = 1; yv = 0;
+                break;
+            case 40:  // down
+                if(direction == 38){
+                    return;
+                }
+                xv = 0; yv = 1;
+                break;
+        }
+        direction = evt.keyCode;
+    }
+</script>
