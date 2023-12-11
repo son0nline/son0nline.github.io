@@ -34,11 +34,15 @@
             </div>
             <!-- Thêm hình ảnh barcode -->
             <div class="form-group" >
-                <img id='imgqr' src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=120x120" alt="QR Code">
+                
             </div>
 
             <button type="button" id="btnGet" class="btn btn-primary" onclick="submitForm()">Get Active Code</button>
           </form>
+        </div>
+        <div class="card-footer text-center">
+            <!-- Hình ảnh barcode -->
+            <img id='imgqr' class="img-fluid" src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=120x120" alt="QR Code">
         </div>
       </div>
     </div>
