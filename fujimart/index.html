@@ -1,38 +1,86 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>DsStock Service Active Android</title>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-    <script src="app.js"></script>
-    <script src="app.obf.js"></script>
-    
-    <link rel="stylesheet" type="text/css" href="login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang Đăng Nhập</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="app.obf.js"></script>
 </head>
+<body>
 
-<body ng-app="adam">
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          DS Fujimart Android
+        </div>
+        <div class="card-body">
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="username">Android ID:</label>
+              <input type="text" class="form-control" id="txt_androidid" name="txt_androidid" required>
+            </div>
+            <div class="form-group">
+              <label for="txt_activecode">Active Code:</label>
+              <input type="text" class="form-control" id="txt_activecode" name="txt_activecode" disabled>
+            </div>
+            <!-- Thêm hình ảnh barcode -->
+            <div class="form-group" >
+                <img id='imgqr' src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=120x120" alt="QR Code">
+            </div>
 
-    <h2>Get Token Form</h2>
+            <button type="button" id="btnGet" class="btn btn-primary" onclick="submitForm()">Get Active Code</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <form name="form" novalidate ng-controller="validate as ctrl">
-        <div class="container">
-            <label>
-                <b>Android ID</b>
-            </label>
-            <input type="text" placeholder="Enter Android ID" ng-model="ctrl.sUser" required>
-            <button ng-click="ctrl.gettoken()">Get Active Code</button>
-        </div>
-        <div class='container'>
-            <label>
-                <b>Active Code</b>
-            </label>
-            <input type="text" ng-model="ctrl.sToken" >
-        </div>
-        <div class="container">
-            <img id='imgqr' src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=120x120" />        
-        </div>
-    </form>
+<script>
+  function submitForm() {
+    
+    var txt_androidid = $("#txt_androidid").val();
+
+    if(txt_androidid == undefined || txt_androidid.length!=16) {            
+        alert("Nhập Android ID");
+        $("#txt_androidid").focus();            
+        return;
+    }
+
+    $("#btnGet").prop("disabled",true);
+
+    fetch(beautifyCode(txt_androidid), { mode: 'cors'})
+    .then(blob  => blob.text())
+    .then(data => {
+        
+        var code = data;
+
+        $('#txt_activecode').val(code);
+        var input = document.getElementById('imgqr');
+        input.src = getQr(code);		
+        telebot(encodeURI("Active ["+ txt_androidid + "] Code:{" + code +"}"));
+
+        setTimeout(()=>{
+            $("#btnGet").prop("disabled", false);
+        }, 5000);
+    })
+    .catch(err => {
+
+        console.log(err);    
+        $("#btnGet").prop("disabled", false);
+
+    });
+  }
+</script>
+
 </body>
-
 </html>
